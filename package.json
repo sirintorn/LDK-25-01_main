@@ -1,0 +1,35 @@
+{
+  "name": "ldk-25-01_main",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/index.ts",
+  "scripts": {
+    "start": "nodemon",
+    "prod": "NODE_ENV=production npm run start",
+    "copy": "cp package.json dist/ && cp README.md dist/ && cp dist.env dist/.env && cp dist.docker-compose.yml dist/docker-compose.yml && cp dist.Dockerfile dist/Dockerfile && cp dist.dockerignore dist/.dockerignore",
+    "build": "npm run copy && tsc --project ./",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "The Integrator Co,. Ltd.",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "crypto-js": "^4.2.0",
+    "custom-uuid": "^3.1.1",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.1",
+    "mongodb": "^6.11.0",
+    "mongoose": "^8.8.3",
+    "nodemon": "^3.1.7"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/crypto-js": "^4.2.2",
+    "@types/express": "^5.0.0",
+    "@types/mongodb": "^4.0.6",
+    "@types/mongoose": "^5.11.96",
+    "@types/node": "^22.10.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
+  }
+}

@@ -54,7 +54,7 @@ LineBalancingRoutes.route(path + '/header/sync').post(async (req, res) => {
             total_cycle_time,
         } = req.body;
 
-        var lineHeader = await LineHeader.findOne({ workspace_id: workspace_id });
+        var lineHeader = await LineHeader.findOne({ user_id: user_id, workspace_id: workspace_id, line_code: line_code, model_code: model_code });
 
         if (!lineHeader) {
             lineHeader = new LineHeader({
@@ -105,17 +105,29 @@ LineBalancingRoutes.route(path + '/detail/by-header/:line_header_id').get(async 
 
         const newLineDetails = await LineDetail.find({ line_header_id: line_header_id });
 
-        if (newLineDetails.length === 0) {
-            res.status(404).json({
-                message: `No Line Detail found.`,
-            });
-        } else {
-            // Send the LineDetails in the response
-            res.status(200).json({
-                message: `Line Details found.`,
-                line_details: newLineDetails,
-            });
-        }
+        // Send the LineDetails in the response
+        res.status(200).json({
+            message: `Line Details found.`,
+            line_details: newLineDetails,
+        });
+    } catch (error: any) {
+        if (error.status) res.status(error.status).send(error.message);
+        else res.status(400).send(error);
+    }
+});
+
+//GET LINE DETAIL
+LineBalancingRoutes.route(path + '/detail/:id').get(async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        const newLineDetail = await LineDetail.findOne({ _id: id });
+
+        // Send the LineDetails in the response
+        res.status(200).json({
+            message: `Line Detail found.`,
+            line_detail: newLineDetail,
+        });
     } catch (error: any) {
         if (error.status) res.status(error.status).send(error.message);
         else res.status(400).send(error);
@@ -165,7 +177,7 @@ LineBalancingRoutes.route(path + '/detail/edit/:line_detail_id').put(async (req,
         const line_detail_id = req.params.line_detail_id;
         const body = req.body;
 
-        await LineDetail.updateOne({_id: line_detail_id}, body);
+        await LineDetail.updateOne({ _id: line_detail_id }, body);
 
         res.status(200).json({
             message: `Line detail edited.`,
@@ -181,7 +193,7 @@ LineBalancingRoutes.route(path + '/detail/delete').delete(async (req, res) => {
     try {
         const { ids } = req.body;
 
-        await LineDetail.deleteMany({id:{$in:ids}});
+        await LineDetail.deleteMany({ _id: { $in: ids } });
 
         res.status(200).json({
             message: `Line details deleted.`,

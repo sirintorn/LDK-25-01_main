@@ -10,17 +10,11 @@ WorkspaceRoutes.route(path + '/by-user/:user_id').get(async (req, res) => {
         const user_id = req.params.user_id;
         const workspaces = await Workspace.find({ user_id: user_id });
 
-        if (workspaces.length === 0) {
-            res.status(404).json({
-                message: `No workspaces found.`,
-            });
-        } else {
-            // Send the workspaces in the response
-            res.status(200).json({
-                message: `Workspaces found.`,
-                workspaces,
-            });
-        }
+        // Send the workspaces in the response
+        res.status(200).json({
+            message: `Workspaces found.`,
+            workspaces,
+        });
     } catch (error: any) {
         if (error.status) res.status(error.status).send(error.message);
         else res.status(400).send(error);

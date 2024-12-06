@@ -37,19 +37,12 @@ LineRoutes.route(path + '/by-workspace/:workspace_id').get(async (req, res) => {
     try {
         const workspace_id = req.params.workspace_id;
 
-        const lines = await Line.find({workspace_id: workspace_id});
+        const lines = await Line.find({ workspace_id: workspace_id });
 
-        if (lines.length === 0) {
-            res.status(404).json({
-                message: `No lines found.`,
-            });
-        } else {
-            // Send the lines in the response
-            res.status(200).json({
-                message: `Lines found.`,
-                lines,
-            });
-        }
+        res.status(200).json({
+            message: `Lines found.`,
+            lines,
+        });
     } catch (error: any) {
         if (error.status) res.status(error.status).send(error.message);
         else res.status(400).send(error);

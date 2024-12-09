@@ -71,9 +71,32 @@ LineBalancingRoutes.route(path + '/header/sync').post(async (req, res) => {
         }
 
         res.status(200).json({
-            message: `Models found.`,
+            message: `Line Header found.`,
             line_header: lineHeader
         });
+    } catch (error: any) {
+        if (error.status) res.status(error.status).send(error.message);
+        else res.status(400).send(error);
+    }
+});
+
+//GET LINE HEADER
+LineBalancingRoutes.route(path + '/header/:id').get(async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        var lineHeader = await LineHeader.findOne({ _id: id });
+
+        if (!lineHeader) {
+            res.status(404).json({
+                message: `Line Header not found.`,
+            });
+        }else{
+            res.status(200).json({
+                message: `Line Header found.`,
+                line_header: lineHeader
+            });
+        }
     } catch (error: any) {
         if (error.status) res.status(error.status).send(error.message);
         else res.status(400).send(error);

@@ -7,7 +7,7 @@
     "start": "nodemon",
     "prod": "NODE_ENV=production npm run start",
     "copy": "cp package.json dist/ && cp README.md dist/ && cp dist.env dist/.env && cp dist.docker-compose.yml dist/docker-compose.yml && cp dist.Dockerfile dist/Dockerfile && cp dist.dockerignore dist/.dockerignore",
-    "build": "tsc --project ./",
+    "build": "npm run copy && tsc --project ./",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "The Integrator Co,. Ltd.",
